@@ -2,6 +2,7 @@
 import java.time.*
 import java.math.BigInteger
 import java.security.MessageDigest
+import kotlin.reflect.typeOf
 
 
 fun main(args: Array<String>) {
@@ -9,20 +10,22 @@ fun main(args: Array<String>) {
     println("We introduce Baddo coin")
 
     val badoCoin = Block
+    //val chaintype = badoCoin.chain
+
+    //this is just code to confirm the type of badocoin.chain
+    //println("${badoCoin.chain::class.simpleName}")
 
 
+    for (i in 0..15) {
+        badoCoin.addNewBlock()
 
-    for (i in 1..15) {
-        badoCoin.addNewBlock(Block.latestBlock)
+    }
+    for (block in badoCoin.chain) {
+        println("""Data : ${block.data}  | Previous Hash : ${block.previousHash}  | Current Hash = ${block.hash} |""".trimMargin())
         //test code to see if new hash is being added to the blockchain
-        println(Block.hashCode())
+        //println(Block.hashCode())
     }
 
-   /* for (block in badoCoin.chain) {
-        println("""Data : ${block.data}  | Previous Hash : ${block.previousHash}  | Current Hash = ${block.hash} |""".trimMargin())
-
-
-    } */
 }
 
 fun ByteArray.md5(): String {
@@ -59,11 +62,10 @@ fun ByteArray.sha256(): String {
             }
 
 
-            //to add new block to the
+            //to add new block to the chain
             fun addNewBlock(block: Block) {
-                if (isNewBlockValid(block)) {
-                    chain.add(block)
-                }
+                if (isNewBlockValid(block)) chain.add(block)
+
 
             }
 
